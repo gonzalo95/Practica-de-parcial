@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1525376192 source:c:\users\planta alta\desktop\newfolder\utn\homework\parcial\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lib.h"
+
+1525376192 c:\users\planta alta\desktop\newfolder\utn\homework\parcial\lib.h
+
+1525376299 source:c:\users\planta alta\desktop\newfolder\utn\homework\parcial\lib.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"lib.h"
+
