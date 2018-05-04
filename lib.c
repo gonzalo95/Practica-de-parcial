@@ -4,15 +4,29 @@
 #include "lib.h"
 
 
-void altaUsuario(eUsuario usuario, int id)
+eUsuario altaUsuario(int id)
 {
+    eUsuario nuevoUsuario;
+
     char nombre[20];
     printf("Nombre: ");
     fflush(stdin);
     gets(nombre);
-    strcpy(usuario.nombre, nombre);
-    usuario.id = id;
-    usuario.estado = 1;
+    strcpy(nuevoUsuario.nombre, nombre);
+
+    char pass[20];
+    printf("Pass: ");
+    fflush(stdin);
+    gets(pass);
+    strcpy(nuevoUsuario.pass, pass);
+
+    nuevoUsuario.id = id;
+    nuevoUsuario.estado = 1;
+
+    inicializar(nuevoUsuario.calificaciones);
+    inicializar(nuevoUsuario.publicaciones);
+
+    return nuevoUsuario;
 }
 
 void altaPublicacion()
@@ -26,7 +40,7 @@ int buscarIndexUsuario(eUsuario lista[], int id, int len)
     int index = -1;
     for(i = 0; i < len; i++)
     {
-        if(lista[index].id == id && lista[index].estado != 0)
+        if(lista[i].id == id && lista[i].estado != 0)
         {
             index = i;
             break;
@@ -69,10 +83,15 @@ int buscarLibreUsuario(eUsuario lista[], int len)
 void listarUsuarios(eUsuario lista[], int len)
 {
     int i;
+    float promedio;
     for(i = 0; i < len; i++)
     {
         if(lista[i].estado == 1)
-            printf("%d -- %s -- %.2f", lista[i].id, lista[i].nombre, calcularPromedio(lista[i].calificaciones));
+        {
+            promedio = calcularPromedio(lista[i].calificaciones);
+            printf("%d -- %s -- %.2f\n", lista[i].id, lista[i].nombre, promedio);
+        }
+
     }
 }
 void listarPublicaciones(ePublicacion lista[], int len) //le falta el nombre del usuario
@@ -89,15 +108,26 @@ float calcularPromedio(int lista[20])
     int i;
     int cantidad = 0;
     int suma = 0;
-    float promedio;
+    float promedio = 0;
     for(i = 0; i < 20; i++)
     {
         if(lista[i] > 0)
         {
             cantidad++;
-            suma++;
+            suma = suma + lista[i];
         }
     }
-    promedio = suma / cantidad;
+    if(cantidad != 0)
+        promedio = (float)suma / cantidad;
+
     return promedio;
+}
+
+void inicializar(int lista[])
+{
+    int i;
+    for(i = 0; i < 20; i++)
+    {
+        lista[i] = 0;
+    }
 }

@@ -12,3 +12,16 @@
 	<string.h>
 	"lib.h"
 
+1525437539 source:c:\users\alumno\desktop\nuevo\lib.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"lib.h"
+
+1525437111 c:\users\alumno\desktop\nuevo\lib.h
+
+1525438246 source:c:\users\alumno\desktop\nuevo\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lib.h"
+

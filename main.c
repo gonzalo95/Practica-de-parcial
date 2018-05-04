@@ -12,10 +12,11 @@ int main()
     int flag = 1;
     int opcion;
     int index;
-    eUsuario nuevoUsuario;
     int idUsuario = 1;
     //int idPublicacion = 1;
     int id;
+    char nuevoPass[20];
+    char nuevoNombre[20];
 
     do
     {
@@ -36,31 +37,50 @@ int main()
         switch(opcion)
         {
             case 1:
-            index = buscarLibreUsuario(usuarios, MAXU);
-            if(index != -1)
-            {
-                altaUsuario(nuevoUsuario, idUsuario);
-                idUsuario++;
-                usuarios[index] = nuevoUsuario;
-            }
-            else
-                printf("Error: no hay mas espacio");
-            break;
+                index = buscarLibreUsuario(usuarios, MAXU);
+                if(index != -1)
+                {
+                    usuarios[index] = altaUsuario(idUsuario);
+                    idUsuario++;
+                }
+                else
+                    printf("Error: no hay mas espacio");
 
-            case 2:
-            printf("Id usuario: ");
-            scanf("%d", &id);
-            index = buscarIndexUsuario(usuarios, id, MAXU);
-            if(index != -1)
-            {
+                break;
 
-            }
-            else
-                printf("Usuario inexistente");
+            case 2: //Pedir pass
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+                if(index != -1)
+                {
+                    printf("Nombre: ");
+                    fflush(stdin);
+                    gets(nuevoNombre);
+                    strcpy(usuarios[index].nombre, nuevoNombre);
 
-            break;
+                    printf("Pass: ");
+                    fflush(stdin);
+                    gets(nuevoPass);
+                    strcpy(usuarios[index].pass, nuevoPass);
 
-            case 3:
+                }
+                else
+                    printf("Usuario inexistente\n");
+
+                break;
+
+            case 3: //Pedir pass
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+                if(index != -1)
+                {
+                    usuarios[index].estado = 0;
+                    printf("Usuario eliminado");
+                }
+                else
+                    printf("Usuario inexistente\n");
             break;
 
             case 4:
@@ -86,9 +106,12 @@ int main()
             break;
 
             case 11:
-            flag = 0;
-            printf("Programa finalizado");
-            break;
+                flag = 0;
+                printf("Programa finalizado");
+                break;
+
+            default:
+                printf("Comando invalido\n");
         }
     }
     while(flag != 0);
