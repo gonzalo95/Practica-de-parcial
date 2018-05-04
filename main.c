@@ -18,6 +18,9 @@ int main()
     int id;
     char nuevoPass[20];
     char nuevoNombre[20];
+    int auxIndex;
+    int calificacion;
+    int auxPass;
 
     do
     {
@@ -49,36 +52,49 @@ int main()
 
                 break;
 
-            case 2: //Pedir pass
+            case 2:
                 printf("Id usuario: ");
                 scanf("%d", &id);
                 index = buscarIndexUsuario(usuarios, id, MAXU);
-                if(index != -1)
+
+                if(index == -1)
+                    printf("Usuario inexistente\n");
+                else
                 {
+                    auxPass = chequearPass(usuarios, index);
+                    if(auxPass == -1)
+                    {
+                        printf("Pass incorrecto\n");
+                        break;
+                    }
                     printf("Nombre: ");
                     fflush(stdin);
                     gets(nuevoNombre);
                     strcpy(usuarios[index].nombre, nuevoNombre);
 
-                    printf("Pass: ");
+                    printf("Nuevo pass: ");
                     fflush(stdin);
                     gets(nuevoPass);
                     strcpy(usuarios[index].pass, nuevoPass);
-
                 }
-                else
-                    printf("Usuario inexistente\n");
 
                 break;
 
-            case 3: //Pedir pass
+            case 3:
                 printf("Id usuario: ");
                 scanf("%d", &id);
                 index = buscarIndexUsuario(usuarios, id, MAXU);
                 if(index != -1)
                 {
+                    auxPass = chequearPass(usuarios, index);
+                    if(auxPass == -1)
+                    {
+                        printf("Pass incorrecto\n");
+                        break;
+                    }
+                    borrarPublicaciones(publicaciones, usuarios[index].id, MAXP);
                     usuarios[index].estado = 0;
-                    printf("Usuario eliminado");
+                    printf("Usuario eliminado\n");
                 }
                 else
                     printf("Usuario inexistente\n");
@@ -95,7 +111,22 @@ int main()
                     break;
                 }
 
-                usuarios[index].publicaciones[obtenerUltimaPublicacion()] = idPublicacion;
+                auxPass = chequearPass(usuarios, index);
+                if(auxPass == -1)
+                {
+                    printf("Pass incorrecto\n");
+                    break;
+                }
+
+                auxIndex = obtenerLibrePublicacion(usuarios[index]);
+
+                if(auxIndex != -1)
+                    usuarios[index].publicaciones[auxIndex] = idPublicacion;
+                else
+                {
+                    printf("Usted llego al limite de publicaciones");
+                    break;
+                }
 
 
                 index = buscarLibrePublicacion(publicaciones, MAXP);
@@ -110,19 +141,139 @@ int main()
             break;
 
             case 5:
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+
+                if(index == -1)
+                {
+                    printf("Usuario inexistente\n");
+                    break;
+                }
+
+                auxPass = chequearPass(usuarios, index);
+                if(auxPass == -1)
+                {
+                    printf("Pass incorrecto\n");
+                    break;
+                }
+
+                listarPublicacionesUsuario(usuarios[index], publicaciones, MAXP);
+
+                printf("Id del producto a modificar: ");
+                scanf("%d", &id);
+
+                index = buscarIndexPublicacion(publicaciones, id, MAXP);
+
+                if(index == -1)
+                {
+                    printf("Producto inexistente\n");
+                    break;
+                }
+
+                float precio;
+                printf("Precio: ");
+                scanf("%f", &precio);
+                publicaciones[index].precio = precio;
+
+                int stock;
+                printf("Stock: ");
+                scanf("%d", &stock);
+                publicaciones[index].stock = stock;
+
             break;
 
             case 6:
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+
+                if(index == -1)
+                {
+                    printf("Usuario inexistente\n");
+                    break;
+                }
+
+                auxPass = chequearPass(usuarios, index);
+                if(auxPass == -1)
+                {
+                    printf("Pass incorrecto\n");
+                    break;
+                }
+
+                listarPublicacionesUsuario(usuarios[index], publicaciones, MAXP);
+
+                printf("Id del producto a borrar: ");
+                scanf("%d", &id);
+
+                index = buscarIndexPublicacion(publicaciones, id, MAXP);
+
+                if(index == -1)
+                {
+                    printf("Producto inexistente\n");
+                    break;
+                }
+
+                publicaciones[index].estado = 0;
+
             break;
 
             case 7:
+                printf("Id del producto a comprar: ");
+                scanf("%d", &id);
+                index = buscarIndexPublicacion(publicaciones, id, MAXP);
+                if(index == -1)
+                {
+                    printf("Producto inexistente\n");
+                    break;
+                }
+
+                if(publicaciones[index].stock == 0)
+                {
+                    printf("Falta stock\n");
+                    break;
+                }
+                else
+                {
+                    publicaciones[index].stock--;
+                    publicaciones[index].vendidos++;
+                }
+
+
+                printf("Califique al vendedor(1 - 10): ");//validar
+                scanf("%d", &calificacion);
+
+                auxIndex = obtenerLibreCalificacion(usuarios[index]);
+
+                if(auxIndex != -1)
+                    usuarios[index].calificaciones[auxIndex] = calificacion;
+                else
+                {
+                    printf("El usuario llego al limite de calificaciones");
+                    break;
+                }
+
+
+
             break;
 
             case 8:
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+
+                if(index == -1)
+                {
+                    printf("Usuario inexistente\n");
+                    break;
+                }
+
+                listarPublicacionesUsuario(usuarios[index], publicaciones, MAXP);
+
             break;
 
             case 9:
-                listarPublicaciones(publicaciones, MAXP);
+                listarPublicaciones(publicaciones, MAXP, usuarios, MAXU);
             break;
 
             case 10:
