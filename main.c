@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lib.h"
 #define MAXU 100
 #define MAXP 1000
@@ -8,12 +9,12 @@
 int main()
 {
     eUsuario usuarios[MAXU] = {};
-    //ePublicacion publicaciones[MAXP] = {};
+    ePublicacion publicaciones[MAXP] = {};
     int flag = 1;
     int opcion;
     int index;
     int idUsuario = 1;
-    //int idPublicacion = 1;
+    int idPublicacion = 1;
     int id;
     char nuevoPass[20];
     char nuevoNombre[20];
@@ -84,6 +85,28 @@ int main()
             break;
 
             case 4:
+                printf("Id usuario: ");
+                scanf("%d", &id);
+                index = buscarIndexUsuario(usuarios, id, MAXU);
+
+                if(index == -1)
+                {
+                    printf("Usuario inexistente\n");
+                    break;
+                }
+
+                usuarios[index].publicaciones[obtenerUltimaPublicacion()] = idPublicacion;
+
+
+                index = buscarLibrePublicacion(publicaciones, MAXP);
+                if(index != -1)
+                {
+                    publicaciones[index] = altaPublicacion(idPublicacion, id);
+                    publicaciones[index].idUsuario = id;
+                    idPublicacion++;
+                }
+                else
+                    printf("Error: no hay mas espacio");
             break;
 
             case 5:
@@ -99,6 +122,7 @@ int main()
             break;
 
             case 9:
+                listarPublicaciones(publicaciones, MAXP);
             break;
 
             case 10:

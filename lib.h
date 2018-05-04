@@ -7,7 +7,7 @@ typedef struct
     int stock;
     int vendidos;
     int estado;
-    int precio;
+    float precio;
     int idUsuario;
 }ePublicacion;
 
@@ -22,12 +22,14 @@ typedef struct
 }eUsuario;
 
 eUsuario altaUsuario(int);
-void altaPublicacion();
+ePublicacion altaPublicacion(int, int);
 int buscarIndexUsuario(eUsuario*, int, int);
 int buscarIndexPublicacion(ePublicacion*, int, int);
 int buscarLibreUsuario(eUsuario*, int);
+int buscarLibrePublicacion(ePublicacion*, int);
 void listarUsuarios(eUsuario*, int);
 void listarPublicaciones(ePublicacion*, int);
 float calcularPromedio(int[20]);
 void inicializar(int*);
+int obtenerUltimaPublicacion(eUsuario, int);
 

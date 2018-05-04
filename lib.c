@@ -29,9 +29,32 @@ eUsuario altaUsuario(int id)
     return nuevoUsuario;
 }
 
-void altaPublicacion()
+ePublicacion altaPublicacion(int idPublicacion, int idUsuario)
 {
+    ePublicacion nuevaPublicacion;
 
+    nuevaPublicacion.id = idPublicacion;
+    nuevaPublicacion.idUsuario = idUsuario;
+    nuevaPublicacion.estado = 1;
+    nuevaPublicacion.vendidos = 0;
+
+    char nombre[20];
+    printf("Nombre: ");
+    fflush(stdin);
+    gets(nombre);
+    strcpy(nuevaPublicacion.nombre, nombre);
+
+    float precio;
+    printf("Precio: ");
+    scanf("%f", &precio);
+    nuevaPublicacion.precio = precio;
+
+    int stock;
+    printf("Stock: ");
+    scanf("%d", &stock);
+    nuevaPublicacion.stock = stock;
+
+    return nuevaPublicacion;
 }
 
 int buscarIndexUsuario(eUsuario lista[], int id, int len)
@@ -79,6 +102,20 @@ int buscarLibreUsuario(eUsuario lista[], int len)
     return index;
 }
 
+int buscarLibrePublicacion(ePublicacion lista[], int len)
+{
+    int i;
+    int index = -1;
+    for(i = 0; i < len; i++)
+    {
+        if(lista[i].estado == 0)
+        {
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
 
 void listarUsuarios(eUsuario lista[], int len)
 {
@@ -99,7 +136,8 @@ void listarPublicaciones(ePublicacion lista[], int len) //le falta el nombre del
     int i;
     for(i = 0; i < len; i++)
     {
-        printf("%d -- %s -- %d -- %d -- %d", lista[i].id, lista[i].nombre, lista[i].stock, lista[i].vendidos, lista[i].precio);
+        if(lista[i].estado == 1)
+            printf("%d -- %s -- %d -- %d -- %.2f\n", lista[i].id, lista[i].nombre, lista[i].stock, lista[i].vendidos, lista[i].precio);
     }
 }
 
@@ -130,4 +168,9 @@ void inicializar(int lista[])
     {
         lista[i] = 0;
     }
+}
+int obtenerUltimaPublicacion(eUsuario lista[], int index)
+{
+    int i;
+    for(i = 0; i < 20; i++)
 }
